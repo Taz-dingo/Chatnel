@@ -5,6 +5,10 @@ import { redirect } from "next/navigation";
 const SetupPage = async () => {
   const profile = await initialProfile();
 
+  if (!profile) {
+    return;
+  }
+
   const server = await db.server.findFirst({
     where: {
       members: {
