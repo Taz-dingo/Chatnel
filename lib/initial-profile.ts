@@ -3,7 +3,7 @@ import { currentUser, auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db"
 
 /**初始化用户资料 */
-export const initProfile = async () => {
+export const initialProfile = async () => {
     const user = await currentUser();
 
     if (!user) {
