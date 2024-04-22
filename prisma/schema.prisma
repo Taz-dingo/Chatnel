@@ -9,6 +9,95 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+// 用户信息
+model Profile {
+  id       String @id @default(uuid()) // 用户的唯一标识符
+  userId   String @unique // 用户的唯一ID
+  name     String // 用户名
+  imageUrl String @db.Text // 用户头像的URL，存储为长字符
+  email    String @db.Text // 用户的电子邮件地址
+
+  servers  Server[] // 该用户所在的服务器列表
+  members  Member[] // 该用户的成员信息列表
+  channels Channel[] // 该用户可访问的频道列表
+
+  createdAt DateTime @default(now()) // 创建时间
+  updatedAt DateTime @updatedAt // 更新时间
+}
+
+// 服务器信息
+model Server {
+  id         String @id @default(uuid()) // 服务器的唯一标识符
+  name       String 
+  imgaeUrl   String @db.Text // 服务器图片的URL，存储为长字符
+  inviteCode String @db.Text // 服务器邀请码
+
+  profileId String // 服务器所属的用户的ID
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade) // 服务器所属的用户信息
+
+  // 一个服务器对应多个成员、多个频道
+  members  Member[] // 服务器的成员列表
+  channels Channel[] // 服务器的频道列表
+
+  createdAt DateTime @default(now()) // 创建时间
+  updatedAt DateTime @updatedAt // 更新时间
+
+  @@index([profileId]) // 为profileId字段创建索引
+}
+
+// 成员类型
+enum MemberRole {
+  ADMIN // 管理员
+  MODERATOR // 主持人
+  GUEST // 访客
+}
+
+// 成员信息
+model Member {
+  id   String     @id @default(uuid()) // 成员的唯一标识符
+  role MemberRole @default(GUEST) // 成员角色，默认为访客
+
+  profileId String // 成员所属的用户的ID
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade) // 成员所属的用户信息
+
+  serverId String // 成员所在的服务器的ID
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade) // 成员所在的服务器信息
+
+  createdAt DateTime @default(now()) // 创建时间
+  updatedAt DateTime @updatedAt // 更新时间
+
+  @@index([profileId]) // 为profileId字段创建索引
+  @@index([serverId]) // 为serverId字段创建索引
+}
+
+// 频道类型
+enum ChannelType {
+  TEXT // 文本频道
+  AUDIO // 音频频道
+  VIDEO // 视频频道
+}
+
+// 频道信息
+model Channel {
+  id   String      @id @default(uuid()) // 频道的唯一标识符
+  name String // 频道名称
+  type ChannelType @default(TEXT) // 频道类型，默认为文本频道
+
+  profileId String // 频道所属的用户的ID
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade) // 频道所属的用户信息
+
+  serverId String // 频道所在的服务器的ID
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade) // 频道所在的服务器信息
+
+  createdAt DateTime @default(now()) // 创建时间
+  updatedAt DateTime @updatedAt // 更新时间
+
+  // 定义索引，profileId和serverId
+  @@index([profileId]) // 为profileId字段创建索引
+  @@index([serverId]) // 为serverId字段创建索引
 }
