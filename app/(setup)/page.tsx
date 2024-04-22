@@ -1,9 +1,9 @@
-import { initialProfile } from "@/lib/initial-profile";
+import { initProfile } from "@/lib/init-profile";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
 const SetupPage = async () => {
-  const profile = await initialProfile();
+  const profile = await initProfile();
 
   if (!profile) {
     return;
