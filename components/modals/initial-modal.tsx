@@ -1,5 +1,10 @@
 "use client";
 
+import * as z from "zod";   // 数据校验库
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";  
+import { use, useEffect, useState } from "react";
+
 import {
   Dialog,
   DialogContent,
@@ -9,9 +14,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -22,7 +24,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { use, useState } from "react";
+import { FileUpload } from "@/components/file-upload";
 
 // 定义表单的类型
 const formSchema = z.object({
@@ -80,7 +82,19 @@ export const InitialModal = () => {
           >
             <div className="space-y-8 px-6">
               <div className="flex items-center justify-center text-center">
-                TODO: 照片上传
+                <FormField
+                  control={form.control}
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FileUpload
+                        endpoint="serverImage"
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <FormField
@@ -94,7 +108,7 @@ export const InitialModal = () => {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black"
+                        className="bg-zinc-300/50 border-0 focus-visible:ring-0  text-black"
                         placeholder="请输入服务器名称"
                         {...field}
                       />

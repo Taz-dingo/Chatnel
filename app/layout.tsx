@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers/theme-privider";
 import { cn } from "@/lib/utils";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +31,7 @@ export default function RootLayout({
             enableSystem={false}
             storageKey="discord-theme"
           >
-            {children}
+            <AntdRegistry>{children}</AntdRegistry>
           </ThemeProvider>
         </body>
       </html>
