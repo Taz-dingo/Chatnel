@@ -19,6 +19,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "ali-oss": "^6.20.0",
     "antd": "^5.16.4",
+    "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "formidable": "^3.5.1",
@@ -32,6 +33,7 @@
     "react-hook-form": "^7.51.3",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "uuid": "^9.0.1",
     "zod": "^3.23.0"
   },
   "devDependencies": {
@@ -40,6 +42,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^9.0.8",
     "eslint": "^8",
     "eslint-config-next": "14.2.2",
     "postcss": "^8",

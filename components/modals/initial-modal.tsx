@@ -1,8 +1,9 @@
 "use client";
 
-import * as z from "zod";   // 数据校验库
+import axios from "axios";
+import * as z from "zod"; // 数据校验库
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";  
+import { useForm } from "react-hook-form";
 import { use, useEffect, useState } from "react";
 
 import {
@@ -25,6 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
+import { useRouter } from "next/navigation";
 
 // 定义表单的类型
 const formSchema = z.object({
@@ -38,6 +40,8 @@ const formSchema = z.object({
 
 export const InitialModal = () => {
   const [isMounted, setIsMounted] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     setIsMounted(true);
@@ -54,7 +58,16 @@ export const InitialModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    try {
+      await axios.post("/api/servers", values);
+      // 刷新页面
+      form.reset();
+      router.refresh();
+
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   // 挂载之后才渲染，避免水合错误

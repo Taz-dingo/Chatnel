@@ -17,7 +17,7 @@ const headers = {
     // 指定Object的存储类型。
     'x-oss-storage-class': 'Standard',
     // 指定Object的访问权限。
-    'x-oss-object-acl': 'private',
+    'x-oss-object-acl': 'public-read',
     // 通过文件URL访问文件时，指定以附件形式下载文件，下载后的文件名称定义为example.txt。
     // 'Content-Disposition': 'attachment; filename="example.txt"',
     // 设置Object的标签，可同时设置多个标签。
@@ -34,7 +34,8 @@ export async function put(fileName: string, filePath: string) {
             // 自定义headers
             , { headers }
         );
-        console.log(result);
+        // console.log(result);
+        return result;
     } catch (e) {
         console.log(e);
     }

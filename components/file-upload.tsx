@@ -6,9 +6,9 @@ import { useState } from "react";
 import type { GetProp, UploadFile, UploadProps } from "antd";
 
 interface FileUploadProps {
-  onChange: (url?: string) => void;
+  onChange: (url?: string) => void; // 上传成功的图片的url传给父组件
   value: string;
-  endpoint: "messageFile" | "serverImage";
+  endpoint: "messageFile" | "serverImage"; // 上传类型
 }
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
@@ -19,14 +19,7 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [file, setFile] = useState<UploadFile>();
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    // {
-    //   uid: "-1",
-    //   name: "image.png",
-    //   status: "done",
-    //   url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    // },
-  ]);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const getBase64 = (file: FileType): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -50,18 +43,25 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj as FileType);
     }
-
-    setPreviewImage(file.url || (file.preview as string));
+    // 可以直接加载value（url），但是转化一下base64预览更快
+    setPreviewImage(value || (file.preview as string));
     setPreviewOpen(true);
   };
 
   const handleChange: UploadProps["onChange"] = ({
     fileList: newFileList,
     file,
+    event,
   }) => {
     setFileList(newFileList);
     setFile(file);
-    onChange(newFileList[0].response?.url); // 把上传成功的图片的url传给父组件
+    console.log("event: ", event);
+    if (newFileList.length > 0) {
+      onChange(newFileList[0].response?.data.url); // 把上传成功的图片的url传给父组件
+      // console.log(newFileList[0].response?.data.url);
+    } else {
+      onChange(undefined);
+    }
   };
 
   return (
@@ -76,7 +76,7 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
       >
         {fileList.length >= FILE_LIST_NUM ? null : uploadButton}
       </Upload>
-      {previewImage && (
+      {value && (
         <Image
           className="z-10"
           wrapperStyle={{ display: "none" }}
@@ -85,7 +85,7 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
             onVisibleChange: (visible) => setPreviewOpen(visible),
             afterOpenChange: (visible) => !visible && setPreviewImage(""),
           }}
-          src={previewImage}
+          src={value}
         />
       )}
     </>
