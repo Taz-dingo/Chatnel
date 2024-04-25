@@ -28,7 +28,7 @@ export const NavigationItem = ({ id, imageUrl, name }: NavigationItemProps) => {
     >
       <button
         onClick={onClick}
-        className="group relative flex items-center"
+        className="group relative flex items-center my-3"
       >
         {/* 选中时的小条 */}
         <div
