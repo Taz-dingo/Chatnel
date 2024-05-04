@@ -37,7 +37,7 @@ model Server {
   imageUrl   String @db.Text // 服务器图片的URL，存储为长字符
   inviteCode String @db.Text // 服务器邀请码
 
-  profileId String // 服务器所属的用户的ID
+  profileId String // 服务器所属的用户的ID （创建者）
   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade) // 服务器所属的用户信息
 
   // 一个服务器对应多个成员、多个频道

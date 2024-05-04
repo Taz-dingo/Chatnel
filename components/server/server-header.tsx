@@ -19,6 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import { useModal } from "@/hooks/use-modal-store";
 
 interface ServerHeaderProps {
   server: ServerWithMembersWithProfile;
@@ -26,6 +27,7 @@ interface ServerHeaderProps {
 }
 
 export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
+  const { onOpen } = useModal();
   const isAdmin = role === MemberRole.ADMIN; // 是否管理员
   const isModerator = isAdmin || role === MemberRole.MODERATOR; // 是否版主（管理员一定是版主，版主不一定是管理员
 
@@ -51,6 +53,9 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
           <DropdownMenuItem
             className="text-indigo-600 dark:text-indigo-400
         px-3 py-2 text-sm cursor-pointer"
+            onClick={() => {
+              onOpen("invite", { server });
+            }}
           >
             邀请成员
             <UserPlus className="h-4 w-4 ml-auto" />
