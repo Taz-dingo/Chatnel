@@ -2,7 +2,7 @@
 
 import { Image, Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { GetProp, UploadFile, UploadProps } from "antd";
 
 interface FileUploadProps {
@@ -20,6 +20,18 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
   const [previewImage, setPreviewImage] = useState("");
   const [file, setFile] = useState<UploadFile>();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  useEffect(() => {
+    if (value) {
+      // 把文件下载下来
+      const file: UploadFile = {
+        uid: "-1",
+        name: "image.png",
+        url: value,
+      };
+      setFileList([file]);
+    }
+  }, [value]);
 
   const getBase64 = (file: FileType): Promise<string> =>
     new Promise((resolve, reject) => {
