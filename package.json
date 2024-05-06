@@ -27,6 +27,7 @@
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "cmdk": "^1.0.0",
     "formidable": "^3.5.1",
     "iron-session": "^8.0.1",
     "lucide-react": "^0.372.0",
