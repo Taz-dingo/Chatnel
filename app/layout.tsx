@@ -7,6 +7,7 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/providers/theme-privider";
 import { ModalProvider } from "@/components/providers/modal-provider";
+import { SocketProvider } from "@/components/providers/socket-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,8 +35,10 @@ export default function RootLayout({
             storageKey="discord-theme"
           >
             <AntdRegistry>
-              <ModalProvider />
-              {children}
+              <SocketProvider>
+                <ModalProvider />
+                {children}
+              </SocketProvider>
             </AntdRegistry>
           </ThemeProvider>
         </body>
