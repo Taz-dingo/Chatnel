@@ -12,6 +12,7 @@ interface FileUploadProps {
 }
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
+type uploadType = "application/pdf" | "image/jpeg" | "image/png" | "";
 
 const FILE_LIST_NUM = 1;
 
@@ -20,6 +21,8 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
   const [previewImage, setPreviewImage] = useState("");
   const [file, setFile] = useState<UploadFile>();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  const [fileType, setFileType] = useState<uploadType>("");
 
   useEffect(() => {
     if (value) {
@@ -67,7 +70,9 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
   }) => {
     setFileList(newFileList);
     setFile(file);
+    setFileType((file?.type as uploadType) || "");
     console.log("event: ", event);
+    console.log("file: ", file);
     if (newFileList.length > 0) {
       onChange(newFileList[0].response?.data.url); // 把上传成功的图片的url传给父组件
       // console.log(newFileList[0].response?.data.url);

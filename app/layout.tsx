@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/providers/theme-privider";
 import { ModalProvider } from "@/components/providers/modal-provider";
 import { SocketProvider } from "@/components/providers/socket-provider";
+import { QueryProvider } from "@/components/providers/query-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,7 +38,7 @@ export default function RootLayout({
             <AntdRegistry>
               <SocketProvider>
                 <ModalProvider />
-                {children}
+                <QueryProvider>{children}</QueryProvider>
               </SocketProvider>
             </AntdRegistry>
           </ThemeProvider>

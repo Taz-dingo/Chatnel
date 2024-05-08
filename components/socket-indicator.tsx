@@ -4,7 +4,7 @@ import { useSocket } from "@/components/providers/socket-provider";
 import { Badge } from "@/components/ui/badge";
 
 export const SocketIndicator = () => {
-  const { isConneted } = useSocket();
+  const { isConnected: isConneted } = useSocket();
 
   if (!isConneted) {
     return (

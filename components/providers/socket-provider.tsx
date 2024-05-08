@@ -6,12 +6,12 @@ import { io as ClientIO } from "socket.io-client";
 
 type SocketContextType = {
   socket: any | null;
-  isConneted: boolean;
+  isConnected: boolean;
 };
 
 const SocketContext = createContext<SocketContextType>({
   socket: null,
-  isConneted: false,
+  isConnected: false,
 });
 
 export const useSocket = () => {
@@ -47,7 +47,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <SocketContext.Provider value={{ socket, isConneted }}>
+    <SocketContext.Provider value={{ socket, isConnected: isConneted }}>
       {children}
     </SocketContext.Provider>
   );
