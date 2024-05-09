@@ -11,7 +11,7 @@ export async function GET(
     try {
         const profile = await currentProfile();
         const { searchParams } = new URL(req.url);
-
+        console.log('searchParams', searchParams)
         const cursor = searchParams.get('cursor');
         const channelId = searchParams.get('channelId');
 

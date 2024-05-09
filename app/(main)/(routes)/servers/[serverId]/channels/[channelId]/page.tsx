@@ -49,8 +49,8 @@ const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
         name={channel.name}
         chatId={channel.id}
         type="channel"
-        apiUrl="/api/messages"
-        socketUrl="/api/socket/messages"
+        apiUrl="/api/messages"  // app路由
+        socketUrl="/api/socket/messages"  // pages路由
         socketQuery={{
           channelId: channel.id,
           serverId: channel.serverId,
